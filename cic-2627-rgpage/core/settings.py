@@ -31,6 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-e7c%rsu8jidj+a(od%lxk
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '127.0.0.1',
     'cic-2627-rgpage.onrender.com',
 ]
 

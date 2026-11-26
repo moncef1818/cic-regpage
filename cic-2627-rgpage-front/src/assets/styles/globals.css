@@ -1636,3 +1636,70 @@ textarea { resize: vertical; min-height: 88px; }
     transform: translateX(-50%) translateY(0);
   }
 }
+
+
+/* ── Privacy Policy Step ───────────────────────────────── */
+.reg-privacy-box {
+  background: rgba(6, 9, 15, 0.7);
+  border: 1px solid var(--line-hi);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 8px;
+}
+
+.reg-privacy-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 16px;
+}
+
+.reg-privacy-text {
+  font-size: 0.88rem;
+  color: var(--grey);
+  line-height: 1.75;
+}
+
+.reg-privacy-check-wrap {
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--line-hi);
+  background: rgba(6, 9, 15, 0.4);
+  transition: border-color 0.25s ease;
+
+  &.is-error {
+    border-color: var(--red);
+  }
+}
+
+.reg-privacy-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  cursor: pointer;
+}
+
+.reg-privacy-checkbox {
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  appearance: auto;
+  -webkit-appearance: checkbox;
+  accent-color: var(--cyan);
+  cursor: pointer;
+}
+
+.reg-privacy-check-text {
+  font-size: 0.88rem;
+  color: var(--white);
+  line-height: 1.6;
+}

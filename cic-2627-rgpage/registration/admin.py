@@ -10,14 +10,14 @@ class DepartmentPreferenceInline(admin.TabularInline):
     model = DepartmentPreference
     extra = 0
     can_delete = False
-    readonly_fields = ('department', 'preference_order', 'why_this_department')
+    readonly_fields = ('department', 'preference_order')
     ordering = ('preference_order',)
 
 @admin.register(Candidate)
 class CandidateAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'email', 'school', 'year', 'created_at')
     list_filter = ('school', 'year', 'created_at')
-    search_fields = ('first_name', 'last_name', 'email', 'phone_number', 'discord_username', 'telegram_username')
+    search_fields = ('first_name', 'last_name', 'email', 'phone_number')
     readonly_fields = ('created_at',)
     inlines = [DepartmentPreferenceInline]
     fieldsets = (
@@ -25,10 +25,10 @@ class CandidateAdmin(admin.ModelAdmin):
             'fields': ('first_name', 'last_name', 'age', 'email', 'phone_number')
         }),
         ('Academic Details', {
-            'fields': ('school', 'year')
+            'fields': ('school', 'school_other', 'year')
         }),
         ('Club Questions & Links', {
-            'fields': ('why_this_club', 'discord_username', 'telegram_username', 'links')
+            'fields': ('why_this_club', 'links', 'privacy_agreed')
         }),
         ('Metadata', {
             'fields': ('created_at',)

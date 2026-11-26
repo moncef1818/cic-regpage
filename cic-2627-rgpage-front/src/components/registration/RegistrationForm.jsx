@@ -7,25 +7,31 @@ const STEPS = [
   { id: 'identity', title: 'Identity', num: '01' },
   { id: 'motivation', title: 'Motivation', num: '02' },
   { id: 'departments', title: 'Department Selection', num: '03' },
+  { id: 'privacy', title: 'Privacy & Confirm', num: '04' },
 ];
 
 const STEP_DESCS = [
   'Provide your primary contact and academic profile details for team communication and verification.',
   'Tell us about your background, ambition, and what drives you to join the Cyber Innovators Club.',
   'Rank your top 3 department choices. Department ranking directly affects your placement and team assignment.',
+  'Review and accept the CIC data privacy policy before submitting your application.',
 ];
 
 const STEP_TIPS = [
   'Use your active university email and official phone number so lead mentors can reach you quickly.',
   'Be concise but authentic. Highlight previous projects, CTF experience, or technical topics you are passionate about.',
   'Selecting 3 distinct departments increases your chance of placement. Make sure each preference is unique.',
+  'Your data is handled with full confidentiality in accordance with the CIC Club Statute.',
 ];
+
+const PRIVACY_POLICY = `The CIC Club collects only the necessary personal information (name, academic details, contact information, department preferences, and participation records) for membership management and club activities. Your data is accessible only to authorized club officers, kept confidential and securely stored, and never sold or shared with external parties without consent, except for formal administrative requests. Data is retained only as long as necessary, in accordance with Article 27 of the Club Statute.`;
 
 const emptyForm = {
   first_name: '', last_name: '', age: '', email: '', phone_number: '',
-  school: '', year: '',
-  why_this_club: '', discord_username: '', telegram_username: '', links: '',
-  dept1: '', why_dept1: '', dept2: '', why_dept2: '', dept3: '', why_dept3: '',
+  school: '', school_other: '', year: '',
+  why_this_club: '',
+  dept1: '', dept2: '', dept3: '',
+  privacy_agreed: false,
 };
 
 function Field({ label, required, optional, error, isValid, children }) {
@@ -85,12 +91,12 @@ export default function RegistrationForm({ registerRef }) {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email address.';
       if (!form.phone_number.trim()) e.phone_number = 'Phone number is required.';
       if (!form.school) e.school = 'Please select your academic school.';
+      if (form.school === 'Other' && !form.school_other.trim()) e.school_other = 'Please specify your school name.';
       if (!form.year) e.year = 'Please select your current year.';
     }
 
     if (s === 1) {
       if (form.why_this_club.trim().length < 30) e.why_this_club = 'Please write at least 30 characters explaining your motivation.';
-      if (!form.discord_username.trim()) e.discord_username = 'Discord handle is required for club communications.';
     }
 
     if (s === 2) {
@@ -101,9 +107,10 @@ export default function RegistrationForm({ registerRef }) {
       if (dept1 && dept2 && dept3 && new Set([dept1, dept2, dept3]).size < 3) {
         e.depts = 'All three department preferences must be different.';
       }
-      if (form.why_dept1.trim().length < 20) e.why_dept1 = 'Write at least 20 characters for your 1st choice.';
-      if (form.why_dept2.trim().length < 20) e.why_dept2 = 'Write at least 20 characters for your 2nd choice.';
-      if (form.why_dept3.trim().length < 20) e.why_dept3 = 'Write at least 20 characters for your 3rd choice.';
+    }
+
+    if (s === 3) {
+      if (!form.privacy_agreed) e.privacy_agreed = 'You must accept the privacy policy to continue.';
     }
 
     setErrors(e);
@@ -132,24 +139,25 @@ export default function RegistrationForm({ registerRef }) {
   async function submit() {
     setSubmitting(true);
 
+    const schoolValue = form.school === 'Other' ? form.school_other.trim() : form.school;
+
     const body = {
       first_name: form.first_name.trim(),
       last_name: form.last_name.trim(),
       age: parseInt(form.age, 10),
       email: form.email.trim(),
       phone_number: form.phone_number.trim(),
-      school: form.school,
+      school: schoolValue,
+      school_other: form.school === 'Other' ? form.school_other.trim() : '',
       year: form.year,
       why_this_club: form.why_this_club.trim(),
-      discord_username: form.discord_username.trim(),
+      privacy_agreed: true,
       department_preferences: [
-        { department: form.dept1, preference_order: 1, why_this_department: form.why_dept1.trim() },
-        { department: form.dept2, preference_order: 2, why_this_department: form.why_dept2.trim() },
-        { department: form.dept3, preference_order: 3, why_this_department: form.why_dept3.trim() },
+        { department: form.dept1, preference_order: 1 },
+        { department: form.dept2, preference_order: 2 },
+        { department: form.dept3, preference_order: 3 },
       ],
     };
-    if (form.telegram_username.trim()) body.telegram_username = form.telegram_username.trim();
-    if (form.links.trim()) body.links = form.links.trim();
 
     try {
       const res = await fetch(API_URL, {
@@ -219,7 +227,7 @@ export default function RegistrationForm({ registerRef }) {
             </p>
 
             <div className="reg-timeline-box">
-              <div className="reg-timeline-title">Next Steps & Timeline</div>
+              <div className="reg-timeline-title">Next Steps &amp; Timeline</div>
               <div className="reg-timeline-grid">
                 <div className="reg-timeline-item">
                   <span className="reg-timeline-num">01</span>
@@ -227,30 +235,12 @@ export default function RegistrationForm({ registerRef }) {
                 </div>
                 <div className="reg-timeline-item">
                   <span className="reg-timeline-num">02</span>
-                  <span>Discord Mentorship Invite</span>
+                  <span>Onboarding &amp; Mentorship Invite</span>
                 </div>
                 <div className="reg-timeline-item">
                   <span className="reg-timeline-num">03</span>
                   <span>Department Orientation</span>
                 </div>
-              </div>
-            </div>
-
-            <div className="reg-community-links">
-              <span className="reg-community-label">Join Official Channels</span>
-              <div className="reg-community-btns">
-                <a href="https://discord.com/invite/aYSaCa9uqk" target="_blank" rel="noreferrer" className="reg-social-btn discord">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028z" />
-                  </svg>
-                  <span>Discord Server</span>
-                </a>
-                <a href="https://t.me/CIC_Enscs" target="_blank" rel="noreferrer" className="reg-social-btn telegram">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.562 8.161c-.18.716-.958 4.228-1.464 6.446-.214.938-.56 1.252-.894 1.283-.726.067-1.277-.478-1.98-.939-1.1-.722-1.722-1.171-2.788-1.874-1.233-.813-.434-1.26.269-1.988.184-.19 3.385-3.103 3.447-3.367.008-.033.015-.157-.059-.223s-.185-.044-.265-.026c-.113.026-1.916 1.218-5.41 3.576-.512.351-.976.523-1.392.514-.459-.01-1.341-.259-1.997-.473-.804-.262-1.444-.401-1.388-.846.029-.232.348-.47.957-.714 3.754-1.635 6.259-2.714 7.514-3.237 3.587-1.493 4.333-1.753 4.819-1.761.107-.002.346.025.501.15.131.106.167.248.178.347.012.099.027.324.016.502z" />
-                  </svg>
-                  <span>Telegram Channel</span>
-                </a>
               </div>
             </div>
 
@@ -446,7 +436,7 @@ export default function RegistrationForm({ registerRef }) {
                             label="School / University"
                             required
                             error={errors.school}
-                            isValid={Boolean(form.school)}
+                            isValid={Boolean(form.school) && !(form.school === 'Other' && !form.school_other.trim())}
                           >
                             <select
                               value={form.school}
@@ -461,6 +451,25 @@ export default function RegistrationForm({ registerRef }) {
                             </select>
                           </Field>
                         </div>
+
+                        {form.school === 'Other' && (
+                          <div className="reg-row-1">
+                            <Field
+                              label="School Name"
+                              required
+                              error={errors.school_other}
+                              isValid={Boolean(form.school_other.trim())}
+                            >
+                              <input
+                                type="text"
+                                value={form.school_other}
+                                onChange={(e) => set('school_other', e.target.value)}
+                                placeholder="Enter your school or university name"
+                                autoComplete="organization"
+                              />
+                            </Field>
+                          </div>
+                        )}
                       </div>
                     )}
 
@@ -482,56 +491,10 @@ export default function RegistrationForm({ registerRef }) {
                             />
                           </Field>
                         </div>
-
-                        <div className="reg-row-2">
-                          <Field
-                            label="Discord Username"
-                            required
-                            error={errors.discord_username}
-                            isValid={Boolean(form.discord_username.trim())}
-                          >
-                            <input
-                              type="text"
-                              value={form.discord_username}
-                              onChange={(e) => set('discord_username', e.target.value)}
-                              placeholder="username#0000 or handle"
-                            />
-                          </Field>
-
-                          <Field
-                            label="Telegram Handle"
-                            optional
-                            error={errors.telegram_username}
-                            isValid={Boolean(form.telegram_username.trim())}
-                          >
-                            <input
-                              type="text"
-                              value={form.telegram_username}
-                              onChange={(e) => set('telegram_username', e.target.value)}
-                              placeholder="@handle"
-                            />
-                          </Field>
-                        </div>
-
-                        <div className="reg-row-1">
-                          <Field
-                            label="Portfolio / Links"
-                            optional
-                            error={errors.links}
-                            isValid={Boolean(form.links.trim())}
-                          >
-                            <input
-                              type="text"
-                              value={form.links}
-                              onChange={(e) => set('links', e.target.value)}
-                              placeholder="GitHub, LinkedIn, CTFtime, personal website…"
-                            />
-                          </Field>
-                        </div>
                       </div>
                     )}
 
-                    {/* STEP 2: DEPARTMENT SELECTION (PREMIUM RANKING CARDS) */}
+                    {/* STEP 2: DEPARTMENT SELECTION */}
                     {step === 2 && (
                       <div className="reg-departments-wrap">
                         {errors.depts && (
@@ -547,7 +510,6 @@ export default function RegistrationForm({ registerRef }) {
 
                         {[1, 2, 3].map((num) => {
                           const deptVal = form[`dept${num}`];
-                          const whyVal = form[`why_dept${num}`];
                           const otherDepts = [form.dept1, form.dept2, form.dept3].filter((_, idx) => idx !== num - 1);
 
                           return (
@@ -594,30 +556,42 @@ export default function RegistrationForm({ registerRef }) {
                                     })}
                                   </select>
                                 </Field>
-
-                                <Field
-                                  label={`Why ${num === 1 ? '1st' : num === 2 ? '2nd' : '3rd'} Choice Department?`}
-                                  required
-                                  error={errors[`why_dept${num}`]}
-                                  isValid={whyVal.trim().length >= 20}
-                                >
-                                  <textarea
-                                    rows="3"
-                                    value={whyVal}
-                                    onChange={(e) => set(`why_dept${num}`, e.target.value)}
-                                    placeholder={
-                                      num === 1
-                                        ? 'What specifically draws you to this primary department?'
-                                        : num === 2
-                                        ? 'Your second choice — what interests you here?'
-                                        : 'Why would you be a good fit for this third department?'
-                                    }
-                                  />
-                                </Field>
                               </div>
                             </div>
                           );
                         })}
+                      </div>
+                    )}
+
+                    {/* STEP 3: PRIVACY POLICY & CONFIRMATION */}
+                    {step === 3 && (
+                      <div className="reg-fields-grid">
+                        <div className="reg-privacy-box">
+                          <div className="reg-privacy-header">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            <span>CIC Data Privacy Policy</span>
+                          </div>
+                          <p className="reg-privacy-text">{PRIVACY_POLICY}</p>
+                        </div>
+
+                        <div className={`reg-privacy-check-wrap ${errors.privacy_agreed ? 'is-error' : ''}`}>
+                          <label className="reg-privacy-label">
+                            <input
+                              type="checkbox"
+                              className="reg-privacy-checkbox"
+                              checked={form.privacy_agreed}
+                              onChange={(e) => set('privacy_agreed', e.target.checked)}
+                            />
+                            <span className="reg-privacy-check-text">
+                              I have read and agree to the CIC Privacy Policy and consent to the collection and use of my personal data as described above.
+                            </span>
+                          </label>
+                          {errors.privacy_agreed && (
+                            <span className="cyber-err-msg">{errors.privacy_agreed}</span>
+                          )}
+                        </div>
                       </div>
                     )}
                   </motion.div>

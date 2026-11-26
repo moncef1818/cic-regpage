@@ -1,15 +1,7 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { cloudinaryUrl } from '../../assets/data/cloudinaryUrls';
 import styles from './Navbar.module.css';
-
-const NAV_LINKS = [
-  { to: '/',             icon: '⌂',  label: 'Home'        },
-  { to: '/past-events',  icon: '◷',  label: 'Past Events' },
-  { to: '/departments',  icon: '⬡',  label: 'Departments' },
-  { to: '/gallery',      icon: '⊞',  label: 'Gallery'     },
-  { to: '/register',     icon: '✦',  label: 'Register'    },
-];
 
 function LiveClock() {
   const [time, setTime] = useState('');
@@ -55,25 +47,6 @@ export default function Navbar() {
             <span className={styles.wordmarkText}>CIC</span>
           </button>
         </div>
-
-        {/* Center: pill nav */}
-        <nav className={styles.pillNav} aria-label="Main navigation">
-          <div className={styles.pill}>
-            {NAV_LINKS.map(({ to, icon, label }) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={to === '/'}
-                className={({ isActive }) =>
-                  `${styles.navBtn} ${isActive ? styles.active : ''}`
-                }
-              >
-                <span className={styles.navIcon}>{icon}</span>
-                <span className={styles.navLabel}>{label}</span>
-              </NavLink>
-            ))}
-          </div>
-        </nav>
 
         {/* Right: live clock */}
         <div className={styles.right}>

@@ -20,12 +20,13 @@ export const DEPT_VALUES = [
   'Ethical Hacking',
   'Cybersecurity',
   'Development',
+  'Electronics and Robotics',
   'Artificial Intelligence',
-  'Design and Media',
+  'Design',
+  'Media',
   'HR',
   'Logistics',
   'External Relations (ER)',
-  'Aura'
 ];
 
-export const API_URL = 'https://cic-2627-rgpage.onrender.com/api/candidates/create/';
+export const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/candidates/create/';

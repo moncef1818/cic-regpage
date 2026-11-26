@@ -18,7 +18,6 @@ class DepartmentPreferenceSerializer(serializers.ModelSerializer):
             "id",
             "department",
             "preference_order",
-            "why_this_department",
         ]
 
 class CandidateSerializer(serializers.ModelSerializer):
@@ -38,11 +37,11 @@ class CandidateSerializer(serializers.ModelSerializer):
             "email",
             "phone_number",
             "school",
+            "school_other",
             "year",
             "why_this_club",
-            "discord_username",
-            "telegram_username",
             "links",
+            "privacy_agreed",
             "department_preferences",
             "created_at",
         ]
@@ -52,6 +51,7 @@ class CandidateCreateSerializer(serializers.ModelSerializer):
     department_preferences = DepartmentPreferenceSerializer(
         many=True
     )
+    school_other = serializers.CharField(max_length=150, required=False, allow_blank=True)
 
     class Meta:
         model = Candidate
@@ -62,13 +62,24 @@ class CandidateCreateSerializer(serializers.ModelSerializer):
             "email",
             "phone_number",
             "school",
+            "school_other",
             "year",
             "why_this_club",
-            "discord_username",
-            "telegram_username",
             "links",
+            "privacy_agreed",
             "department_preferences",
         ]
+
+    def validate(self, data):
+        if data.get('school') == 'Other' and not data.get('school_other', '').strip():
+            raise serializers.ValidationError(
+                {"school_other": "Please specify your school name."}
+            )
+        if not data.get('privacy_agreed', False):
+            raise serializers.ValidationError(
+                {"privacy_agreed": "You must agree to the privacy policy to register."}
+            )
+        return data
 
     def validate_department_preferences(self, value):
         if len(value) != 3:
