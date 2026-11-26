@@ -201,7 +201,7 @@ export default function RegistrationForm({ registerRef }) {
           </div>
           <h1 className="reg-main-title">Candidate Onboarding</h1>
           <p className="reg-main-subtitle">
-            Secure enrollment process for prospective Cyber Innovators Club candidates.
+            Enrollment process for prospective Cyber Innovators Club candidates.
           </p>
         </header>
 
