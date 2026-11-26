@@ -231,7 +231,7 @@ export default function RegistrationForm({ registerRef }) {
               <div className="reg-timeline-grid">
                 <div className="reg-timeline-item">
                   <span className="reg-timeline-num">01</span>
-                  <span>Application Review (~48h)</span>
+                  <span>Application Review</span>
                 </div>
                 <div className="reg-timeline-item">
                   <span className="reg-timeline-num">02</span>
