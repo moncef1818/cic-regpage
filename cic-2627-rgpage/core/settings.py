@@ -32,7 +32,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'cic-2627-rgpage.onrender.com',
+    'cyber-innovators-club-registrations.vercel.app',
 ]
 
 
