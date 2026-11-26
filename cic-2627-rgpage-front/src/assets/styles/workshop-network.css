@@ -1,0 +1,316 @@
+/* ─────────────────────────────────────────
+   CIC 2026/2027 — workshop-network.css
+   Futuristic Beehive Honeycomb Workshops Section
+   ───────────────────────────────────────── */
+
+.wn-section {
+  position: relative;
+  width: 100%;
+  padding: 80px 0 100px;
+  background: var(--bg);
+  color: var(--white);
+  overflow: hidden;
+}
+
+/* Header Controls */
+.wn-header {
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.wn-title-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.wn-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 12px;
+  margin-top: 20px;
+}
+
+.wn-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+  background: rgba(11, 16, 24, 0.6);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+
+.wn-filter-btn:hover,
+.wn-filter-btn.active {
+  border-color: var(--cyan);
+  color: var(--white);
+  background: rgba(77, 201, 230, 0.08);
+  box-shadow: 0 0 12px rgba(77, 201, 230, 0.15);
+}
+
+.wn-filter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* Honeycomb Beehive Outer Wrapper */
+.wn-beehive-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 620px;
+  background: radial-gradient(circle at 50% 50%, rgba(15, 21, 32, 0.8), rgba(6, 9, 15, 0.95));
+  border: 1px solid var(--line-hi);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  overflow: x-auto;
+}
+
+/* Subtle Animated Technical Background */
+.wn-cyber-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wn-ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 650px;
+  height: 450px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(77, 201, 230, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: wnPulseGlow 6s ease-in-out infinite alternate;
+}
+
+@keyframes wnPulseGlow {
+  0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.95); }
+  100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+/* Continuous Interlocking Honeycomb Rows */
+.wn-honeycomb-grid {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.wn-honeycomb-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Precise horizontal gap between hexes */
+  margin-top: -38px; /* Negative vertical margin for interlocking hex geometry */
+}
+
+.wn-honeycomb-row:first-child {
+  margin-top: 0;
+}
+
+/* Single Hexagon Cell Structure */
+.wn-hex-wrapper {
+  position: relative;
+  width: 200px;
+  height: 220px;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, filter 0.35s ease;
+  z-index: 1;
+}
+
+.wn-hex-border {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: rgba(255, 255, 255, 0.12);
+  transition: all 0.35s ease;
+}
+
+.wn-hex-card {
+  position: absolute;
+  inset: 2px;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: rgba(11, 16, 24, 0.88);
+  backdrop-filter: blur(12px);
+  padding: 24px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: background 0.35s ease;
+}
+
+/* Essential Card Content inside Hexagon */
+.wn-hex-dept-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.wn-hex-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wn-hex-instructor {
+  font-size: 0.7rem;
+  color: var(--grey);
+  line-height: 1.3;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.wn-hex-date {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  color: var(--grey-dim);
+  text-transform: uppercase;
+}
+
+/* Hover & Selected Interlocking Highlights */
+.wn-hex-wrapper.hovered {
+  transform: scale(1.08);
+  z-index: 10;
+}
+
+.wn-hex-wrapper.hovered .wn-hex-border {
+  box-shadow: 0 0 30px var(--accent-color, var(--cyan));
+}
+
+.wn-hex-wrapper.adjacent {
+  z-index: 5;
+}
+
+.wn-hex-wrapper.adjacent .wn-hex-border {
+  background: var(--accent-color, var(--cyan));
+  opacity: 0.7;
+  box-shadow: 0 0 16px var(--accent-color, var(--cyan));
+}
+
+.wn-hex-wrapper.selected {
+  z-index: 8;
+}
+
+.wn-hex-wrapper.selected .wn-hex-border {
+  background: var(--accent-color, var(--cyan));
+  box-shadow: 0 0 28px var(--accent-color, var(--cyan));
+}
+
+.wn-hex-wrapper.selected .wn-hex-card {
+  background: rgba(15, 21, 32, 0.95);
+}
+
+.wn-hex-wrapper.dimmed {
+  opacity: 0.28;
+  filter: grayscale(60%);
+}
+
+/* Canvas HUD Status */
+.wn-beehive-hud {
+  margin-top: 32px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--grey-dim);
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+/* Responsive Styling */
+@media (max-width: 1024px) {
+  .wn-hex-wrapper {
+    width: 160px;
+    height: 176px;
+  }
+
+  .wn-honeycomb-row {
+    margin-top: -30px;
+    gap: 8px;
+  }
+
+  .wn-hex-title {
+    font-size: 0.64rem;
+  }
+
+  .wn-hex-instructor {
+    font-size: 0.62rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .wn-beehive-container {
+    padding: 24px 12px;
+    overflow-x: auto;
+  }
+
+  .wn-hex-wrapper {
+    width: 135px;
+    height: 148px;
+  }
+
+  .wn-honeycomb-row {
+    margin-top: -24px;
+    gap: 6px;
+  }
+
+  .wn-hex-title {
+    font-size: 0.56rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .wn-hex-instructor {
+    font-size: 0.54rem;
+    max-width: 100px;
+  }
+}

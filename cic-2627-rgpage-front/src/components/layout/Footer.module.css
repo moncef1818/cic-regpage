@@ -1,0 +1,108 @@
+/* ── FOOTER ── */
+.footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--line);
+  margin-top: 80px;
+}
+
+.inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* Brand section */
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.logoRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoImage {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+}
+
+.brandName {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+
+.copy {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--grey-dim);
+}
+
+/* Socials */
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.socialBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line-hi);
+  border-radius: 6px;
+  color: var(--grey);
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+}
+
+.socialBtn:hover {
+  color: var(--cyan);
+  border-color: var(--cyan-dim);
+  background: var(--cyan-glow);
+}
+
+/* mobile spacer so content isn't hidden behind floating nav */
+.mobileSpace {
+  display: none;
+  height: 80px;
+}
+
+/* ── WIDE SCREEN ── */
+@media (min-width: 1200px) {
+  .footer {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .inner {
+    padding-left: clamp(32px, 4vw, 80px);
+    padding-right: clamp(32px, 4vw, 80px);
+  }
+}
+
+@media (max-width: 680px) {
+  .inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 28px 20px;
+  }
+
+  .mobileSpace {
+    display: block;
+  }
+}

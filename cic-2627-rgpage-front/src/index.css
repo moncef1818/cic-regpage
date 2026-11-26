@@ -1,0 +1,15 @@
+/* ─────────────────────────────────────────
+   CIC 2026/2027 — CSS Entry Point
+   Global styles are imported in main.jsx (Vite JS imports) to avoid
+   postcss-import path resolution issues with Vite 8's bundled postcss-import.
+   ───────────────────────────────────────── */
+
+/* Layout: account for sticky header height */
+.site-main {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+/* Disable browser smooth scroll (Lenis handles it) */
+html { scroll-behavior: auto; }

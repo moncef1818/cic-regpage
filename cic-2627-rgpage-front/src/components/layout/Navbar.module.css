@@ -1,0 +1,219 @@
+/* ── HEADER ── */
+
+/* Top fade mask — blurs content scrolling under header */
+.topMask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(50px, 10vw, 80px);
+  background: linear-gradient(to bottom, var(--bg) 0%, transparent 100%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  mask-image: linear-gradient(rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
+  pointer-events: none;
+  z-index: 8;
+}
+
+/* Bottom fade — unused now that header is fixed at all sizes, kept for compatibility */
+.bottomMask {
+  display: none;
+}
+
+/* The header bar — fixed and fluid at every viewport size */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(6px, 2vw, 20px);
+  padding: clamp(8px, 2vw, 18px) clamp(10px, 3vw, 24px);
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 9, 15, 0.45) 0%,
+    rgba(6, 9, 15, 0.22) 55%,
+    rgba(6, 9, 15, 0) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%);
+  border-bottom: none;
+  box-shadow: none;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+.header.scrolled {
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 9, 15, 0.65) 0%,
+    rgba(6, 9, 15, 0.35) 60%,
+    rgba(6, 9, 15, 0) 100%
+  );
+}
+
+/* Left column: wordmark */
+.left {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Right column: live clock */
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* ── WORDMARK ── */
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 1.2vw, 8px);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.wordmarkLogo {
+  width: clamp(20px, 5vw, 32px);
+  height: clamp(20px, 5vw, 32px);
+  object-fit: contain;
+  display: block;
+}
+
+.wordmarkText {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(0.55rem, 1.6vw, 0.82rem);
+  letter-spacing: 0.22em;
+  color: var(--grey);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── PILL NAV ── */
+.pillNav {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.pillNav::-webkit-scrollbar {
+  display: none;
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  background: rgba(11, 16, 24, 0.9);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  padding: clamp(3px, 0.8vw, 6px);
+  gap: clamp(1px, 0.4vw, 4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.42), inset 0 0 0 1px rgba(255,255,255,0.02);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  flex-shrink: 0;
+}
+
+.navBtn {
+  display: flex;
+  align-items: center;
+  gap: clamp(3px, 0.6vw, 7px);
+  padding: clamp(5px, 1.4vw, 11px) clamp(7px, 2vw, 18px);
+  border-radius: 999px;
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(0.52rem, 1.3vw, 0.64rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey);
+  text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+}
+
+.navBtn:hover {
+  color: var(--white);
+  background: rgba(77,201,230,0.08);
+  border-color: rgba(77,201,230,0.2);
+  box-shadow: inset 0 0 0 1px rgba(77,201,230,0.12);
+  transform: translateY(-1px);
+}
+
+.navBtn.active {
+  color: var(--cyan);
+  background: rgba(77,201,230,0.12);
+  border-color: rgba(77,201,230,0.25);
+  box-shadow: 0 0 18px rgba(77,201,230,0.12);
+}
+
+.navIcon {
+  font-size: clamp(0.68rem, 1.6vw, 0.85rem);
+  line-height: 1;
+}
+
+.navLabel {
+  display: inline-block;
+}
+
+/* thin divider between nav items (unused — gap handles spacing) */
+.divider {
+  display: none;
+}
+
+/* ── LIVE CLOCK ── */
+.clock {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(0.6rem, 1.4vw, 0.72rem);
+  letter-spacing: 0.12em;
+  color: var(--grey-dim);
+  white-space: nowrap;
+}
+
+/* Below this width, drop the clock entirely to free up width, and show
+   icon-only nav buttons (no labels) so the pill stays compact. */
+@media (max-width: 460px) {
+  .right {
+    display: none;
+  }
+
+  .pillNav {
+    justify-content: flex-start;
+  }
+
+  .navLabel {
+    display: none;
+  }
+
+  .navBtn {
+    padding: clamp(7px, 2.4vw, 11px);
+  }
+
+  .navIcon {
+    font-size: clamp(0.85rem, 3.5vw, 1rem);
+  }
+
+  .wordmarkText {
+    display: none;
+  }
+}

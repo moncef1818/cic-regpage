@@ -1,0 +1,36 @@
+{
+  "name": "cic-reg-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "upload-cloudinary": "node scripts/upload-to-cloudinary.mjs",
+    "generate-cloudinary-urls": "node scripts/generate-image-urls.mjs"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.7.0",
+    "framer-motion": "^12.42.2",
+    "lenis": "^1.3.25",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.18.2",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "cloudinary": "^2.10.0",
+    "oxlint": "^1.71.0",
+    "sharp": "^0.33.5",
+    "vite": "^8.1.1"
+  },
+  "optionalDependencies": {
+    "@rolldown/binding-linux-x64-gnu": "^1.2.3"
+  }
+}
