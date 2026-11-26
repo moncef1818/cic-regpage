@@ -4,7 +4,6 @@ export const SCHOOLS = [
   { label: 'NHSM — National School Of Mathematics', value: 'National School Of Mathematics' },
   { label: 'NHSAT — National School Of Autonomous Systems Technology', value: 'National School Of Autonomous Systems Technology' },
   { label: 'NHNN — National School Of Nanoscience And Nanoechnology', value: 'National School Of Nanoscience And Nanoechnology' },
-  { label: 'ESI — National School Of Computer Science', value: 'National School Of Computer Science' },
   { label: 'Other', value: 'Other' },
 ];
 
@@ -29,4 +28,4 @@ export const DEPT_VALUES = [
   'External Relations (ER)',
 ];
 
-export const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/candidates/create/';
+export const API_URL = import.meta.env.VITE_API_URL || 'https://cic-regpage.onrender.com/api/candidates/create/';
